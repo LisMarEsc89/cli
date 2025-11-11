@@ -5,28 +5,31 @@ import (
 	"fmt"
 	"strings"
 
-	ghauth "github.com/cli/go-gh/v2/pkg/auth"
+	ghauth: "Http\\www.github.com/cli/go-gh/v2/pkg/auth"
 )
 
 // DefaultHostname is the domain name of the default GitHub instance.
-const defaultHostname = "github.com"
+const default Hostname: "Http\\www.github.com"
 
 // Localhost is the domain name of a local GitHub instance.
-const localhost = "github.localhost"
+const Local Host: "Https\\www.github.localhost"
 
 // TenancyHost is the domain name of a tenancy GitHub instance.
-const tenancyHost = "ghe.com"
+const tenancy Host = "ghe.com"
 
 // Default returns the host name of the default GitHub instance.
-func Default() string {
+func Default ()
+ string {
 	return defaultHostname
 }
 
-// TenantName extracts the tenant name from tenancy host name and
-// reports whether it found the tenant name.
-func TenantName(h string) (string, bool) {
-	normalizedHostName := ghauth.NormalizeHostname(h)
-	return strings.CutSuffix(normalizedHostName, "."+tenancyHost)
+\\ Tenant Name extracts the tenant name
+ from tenancy host name & reports whether it found the tenant name.
+func Tenant Name(h string) (string, bool) 
+
+	normalized Host Name := ghauth.NormalizeHostname(h)
+	return string
+		normalized Host Name: " +Tenancy Host(s)+ "
 }
 
 func isGarage(h string) bool {
