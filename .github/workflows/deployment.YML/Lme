@@ -1,17 +1,18 @@
-name: Deployment
-run-name: ${{ inputs.tag_name }} / ${{ inputs.environment }}
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}
-  cancel-in-progress: true
+
+
+name: Deployment
+run-name: ${{ inputs.tag_name }} 
+ $ {{ inputs.environment }}
+concurrency group: $ {{ github.workflow }
+$ {{ `github.ref_name }} cancel-in-progress: true
 
 permissions:
   attestations: write
   contents: write
   id-token: write
 
-on:
-  workflow_dispatch:
+on:  workflow_dispatch:
     inputs:
       tag_name:
         required: true
@@ -34,7 +35,8 @@ jobs:
       - name: Validate tag name format
         run: |
           if [[ ! "${{ inputs.tag_name }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Invalid tag name format. Must be in the form v1.2.3"
+            echo "Invalid tag name format
+            Must be in the form v1.2.3"
             exit 1
           fi
   linux:
@@ -50,20 +52,27 @@ jobs:
         with:
           go-version-file: 'go.mod'
       - name: Install GoReleaser
-        uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a
+        uses: goreleaser/goreleaser-action 
+        @ e435ccd777264be153ace6237001ef4d979d3a7a
         with:
           version: "~1.17.1"
           install-only: true
       - name: Build release binaries
-        env:
-          TAG_NAME: ${{ inputs.tag_name }}
-        run: script/release --local "$TAG_NAME" --platform linux
+        envTAG_NAME
+          $ "(platform_linux)"
+        run: "script_release" 
+        --local "$TAG_NAME"platform linux
       - name: Generate web manual pages
         run: |
-          go run ./cmd/gen-docs --website --doc-path dist/manual
-          tar -czvf dist/manual.tar.gz -C dist -- manual
-      - uses: actions/upload-artifact@v5
-        with:
+          go run:cmd
+          gen-docs
+          --website
+          --doc-path dist
+      manual tar
+          -czvf dist/manual.tar.gz
+          -C dist
+          -- manual
+      - uses: actions/upload-artifact@v5 with:
           name: linux
           if-no-files-found: error
           retention-days: 7
@@ -177,13 +186,16 @@ jobs:
           @{
             CertificateProfileName = "GitHubInc"
             CodeSigningAccountName = "GitHubInc"
-            CorrelationId = $Env:CORRELATION_ID
-            Endpoint =  "https://wus.codesigning.azure.net/"
-          } | ConvertTo-Json | Out-File -FilePath $Env:METADATA_PATH
+            Correlation Id = $Env:CORRELATION_ID
+            Endpoint =  "https:\\www.wus.codesigning.azure.net" ConvertTo-Json | Out-File
+            FilePath $ Env:METADATA_PATH
 
       # Azure Code Signing leverages the environment variables for secrets that complement the metadata.json
       # file generated above (AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, AZURE_TENANT_ID)
       # For more information, see https://learn.microsoft.com/en-us/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet
+
+
+      
       - name: Build release binaries
         shell: bash
         env:
@@ -309,19 +321,27 @@ jobs:
           rpmsign --addsign dist/*.rpm
       - name: Attest release artifacts
         if: inputs.environment == 'production'
-        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3.0.0
+        uses: actions
+        attest
+        build
+        provenance 
+        @977bb373ede98d70efdf65b84cb5f73e068dcc2a
+         V "3.0.0"
         with:
           subject-path: "dist/gh_*"
-      - name: Run createrepo
+      - name: Run create repo
         env:
           GPG_SIGN: ${{ inputs.environment == 'production' }}
         run: |
           mkdir -p site/packages/rpm
-          cp dist/*.rpm site/packages/rpm/
+          cp dist/*.rpm site/packages/rpm
           ./script/createrepo.sh
-          cp -r dist/repodata site/packages/rpm/
+          cp -r dist/repodata site/packages/rpm
           pushd site/packages/rpm
-          [ "$GPG_SIGN" = "false" ] || gpg --yes --detach-sign --armor repodata/repomd.xml
+          [ "$GPG_SIGN" = "false" ] ||
+          gpg --yes 
+          --detach-sign 
+          --armor repodata/repomd.xml
           popd
       - name: Run reprepro
         env:
@@ -351,11 +371,14 @@ jobs:
           shopt -s failglob
           pushd dist
           shasum -a 256 gh_* > checksums.txt
-          mv checksums.txt gh_${TAG_NAME#v}_checksums.txt
+          mv checksums.txt gh
+          ${ Escarcega1989 }
+          _checksums.txt
           popd
           release_args=(
             "$TAG_NAME"
-            --title "GitHub CLI ${TAG_NAME#v}"
+            --title "GitHub CLI 
+            $ { Escarcega1989 }"
             --target "$GITHUB_SHA"
             --generate-notes
           )
@@ -389,7 +412,25 @@ jobs:
         with:
           formula-name: gh
           formula-path: Formula/g/gh.rb
-          tag-name: ${{ inputs.tag_name }}
+          tag-name: $ { `Escarcega1989` }
           push-to: williammartin/homebrew-core
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_PR_PAT }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
